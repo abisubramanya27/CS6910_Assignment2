@@ -51,7 +51,7 @@ def perform_detection(net, img, output_layers, w, h, confidence_threshold):
     return boxes, confidences, class_ids
 
 
-def draw_boxes(boxes, confidences, class_ids, classes, img, colors, confidence_threshold, NMS_threshold):
+def draw_boxes_labels(boxes, confidences, class_ids, classes, img, colors, confidence_threshold, NMS_threshold):
 
     indexes = cv2.dnn.NMSBoxes(boxes, confidences, confidence_threshold, NMS_threshold)
 
@@ -61,13 +61,13 @@ def draw_boxes(boxes, confidences, class_ids, classes, img, colors, confidence_t
         for i in indexes.flatten():
             x, y, w, h = boxes[i]
             # print(len(colors[class_ids[i]]))
-            color = colors[i]
+            color = colors[class_ids[i]]
             cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
             # text = f"{class_ids[i]} -- {confidences[i]}"
             text = "{}: {:.4f}".format(classes[class_ids[i]], confidences[i])
             cv2.putText(img, text, (x, y - 5), FONT, 0.5, color, 2)
 
-    cv2.imshow("Detection", img)
+    return img
 
 
 def dectection_video_file(webcam, video_path, yolo_weights, yolo_cfg, coco_names, confidence_threshold, nms_threshold):
@@ -78,21 +78,40 @@ def dectection_video_file(webcam, video_path, yolo_weights, yolo_cfg, coco_names
     if webcam:
         video = cv2.VideoCapture(0)
         time.sleep(2.0)
+        if (video.isOpened() == False): 
+            print("Error opening camera")
+            return
     else:
         video = cv2.VideoCapture(video_path)
+    
+        if (video.isOpened() == False): 
+            print("Error reading video file")
+            return
 
+    frame_width = int(video.get(3))
+    frame_height = int(video.get(4))
+
+    fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+    out = cv2.VideoWriter("output.avi", fourcc, 20.0, (frame_width, frame_height))
     while True:
         ret, image = video.read()
+        if ret == False:
+            print("Can't receive frame (stream end?). Exiting ...")
+            break
+
         h, w, _ = image.shape
         boxes, confidences, class_ids = perform_detection(net, image, output_layers, w, h, confidence_threshold)
-        draw_boxes(boxes, confidences, class_ids, classes, image, colors, confidence_threshold, nms_threshold)
+        final_img = draw_boxes_labels(boxes, confidences, class_ids, classes, image, colors, confidence_threshold, nms_threshold)
+        cv2.imshow("Detection", final_img)
+        out.write(final_img)
 
         key = cv2.waitKey(1) & 0xFF
         if key == ord("q"):
             break
 
     video.release()
-
+    out.release()
+    cv2.destroyAllWindows()
 
 def detection_image_file(image_path, yolo_weights, yolo_cfg, coco_names, confidence_threshold, nms_threshold):
     img, h, w = load_input_image(image_path)
@@ -100,7 +119,9 @@ def detection_image_file(image_path, yolo_weights, yolo_cfg, coco_names, confide
     # colors = np.random.uniform(0, 255, size=(len(classes), 3))
     colors = ((np.array(color_palette("husl", len(classes))) * 255)).astype(np.uint8)
     boxes, confidences, class_ids = perform_detection(net, img, output_layers, w, h, confidence_threshold)
-    draw_boxes(boxes, confidences, class_ids, classes, img, colors, confidence_threshold, nms_threshold)
+    final_img = draw_boxes_labels(boxes, confidences, class_ids, classes, img, colors, confidence_threshold, nms_threshold)
+    cv2.imshow("Detection", final_img)
+    cv2.imwrite()
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
