@@ -62,7 +62,7 @@ def draw_boxes_labels(boxes, confidences, class_ids, classes, img, colors, confi
         for i in indexes.flatten():
             x, y, w, h = boxes[i]
             # print(len(colors[class_ids[i]]))
-            color = colors[class_ids[i]]
+            color = [int(c) for c in colors[class_ids[i]]]
             cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
             # text = f"{class_ids[i]} -- {confidences[i]}"
             text = "{}: {:.4f}".format(classes[class_ids[i]], confidences[i])
@@ -74,7 +74,7 @@ def draw_boxes_labels(boxes, confidences, class_ids, classes, img, colors, confi
 def dectection_video_file(webcam, video_path, yolo_weights, yolo_cfg, coco_names, confidence_threshold, nms_threshold):
     net, classes, output_layers = yolov3(yolo_weights, yolo_cfg, coco_names)
     # colors = np.random.uniform(0, 255, size=(len(classes), 3))
-    colors = ((np.array(color_palette("husl", len(classes))) * 255)).astype(np.uint8)
+    colors = ((np.array(sns.color_palette("husl", len(classes))) * 255)).astype(int)
 
     if webcam:
         video = cv2.VideoCapture(0)
@@ -97,7 +97,7 @@ def dectection_video_file(webcam, video_path, yolo_weights, yolo_cfg, coco_names
         os.makedirs(out_dir)
     out_name = os.path.splitext(os.path.basename(video_path))[0] + '.avi'
     fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-    out = cv2.VideoWriter(os.path.join(out_dir, '..', out_name), fourcc, 20.0, (frame_width, frame_height))
+    out = cv2.VideoWriter(os.path.join(out_dir, out_name), fourcc, 20.0, (frame_width, frame_height))
 
     while True:
         ret, image = video.read()
@@ -124,14 +124,16 @@ def detection_image_file(image_path, yolo_weights, yolo_cfg, coco_names, confide
     img, h, w = load_input_image(image_path)
     net, classes, output_layers = yolov3(yolo_weights, yolo_cfg, coco_names)
     # colors = np.random.uniform(0, 255, size=(len(classes), 3))
-    colors = ((np.array(color_palette("husl", len(classes))) * 255)).astype(np.uint8)
+    colors = ((np.array(sns.color_palette("husl", len(classes))) * 255)).astype(int)
     boxes, confidences, class_ids = perform_detection(net, img, output_layers, w, h, confidence_threshold)
+
     final_img = draw_boxes_labels(boxes, confidences, class_ids, classes, img, colors, confidence_threshold, nms_threshold)
+    
     cv2.imshow("Detection", final_img)
     final_img_dir = os.path.join(os.path.dirname(image_path), '..', 'output')
     if not os.path.exists(final_img_dir):
         os.makedirs(final_img_dir)
-    cv2.imwrite("", os.path.join(final_img_dir, os.path.basename(image_path)))
+    cv2.imwrite(os.path.join(final_img_dir, os.path.basename(image_path)), final_img)
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -159,14 +161,12 @@ if __name__ == '__main__':
     if image_path is None and args['camera'] == False and args['video'] is None:
         print('No input provided to apply the model')
 
-    if image_path:
+    elif image_path:
         detection_image_file(image_path, yolo_weights, yolo_cfg, coco_names, confidence_threshold, nms_threshold)
 
     elif args['camera'] == True or args['video']:
         webcam = args['camera']
         video_path = args['video']
         dectection_video_file(webcam, video_path, yolo_weights, yolo_cfg, coco_names, confidence_threshold, nms_threshold)
-
-
 
 
