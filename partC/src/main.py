@@ -66,7 +66,10 @@ def draw_boxes_labels(boxes, confidences, class_ids, classes, img, colors, confi
             cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
             # text = f"{class_ids[i]} -- {confidences[i]}"
             text = "{}: {:.4f}".format(classes[class_ids[i]], confidences[i])
-            cv2.putText(img, text, (x, y - 5), FONT, 0.5, color, 2)
+            (text_w, text_h) = cv2.getTextSize(text, FONT, fontScale=0.6, thickness=2)[0]
+            text_offset_x, text_offset_y = 4, -4
+            cv2.rectangle(img, (x-1, y-1), (x + text_offset_x + text_w + 4, y + text_offset_y - text_h - 5), color, cv2.FILLED)
+            cv2.putText(img, text, (x + text_offset_x, y + text_offset_y - 1), FONT, 0.6, (0, 0, 0), 2, cv2.LINE_AA)
 
     return img
 
@@ -144,12 +147,13 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('--video', help='Path to video file', default=None)
     ap.add_argument('--image', help='Path to the test images', default=None)
-    ap.add_argument('--camera', help='To use the live feed from web-cam', type=bool, default=False)
+    ap.add_argument('-camera', help='To use the live feed from web-cam', action="store_true", default=False)
     ap.add_argument('--weights', help='Path to model weights', type=str, default='../pre-trained-model/yolov3.weights')
     ap.add_argument('--configs', help='Path to model configs',type=str, default='../pre-trained-model/yolov3.cfg')
     ap.add_argument('--class_names', help='Path to class-names text file', type=str, default='../pre-trained-model/coco.names')
     ap.add_argument('--conf_thresh', help='Confidence threshold value', default=0.5)
     ap.add_argument('--nms_thresh', help='Confidence threshold value', default=0.4)
+    ap.add_argument('-scores', help='To display probability scores for the object detected', action='store_true', default=False)
     args = vars(ap.parse_args())
 
     image_path = args['image']
@@ -157,11 +161,15 @@ if __name__ == '__main__':
     confidence_threshold = args['conf_thresh']
     nms_threshold = args['nms_thresh']
 
+    options_list = [image_path is not None, args['camera'] == True, args['video'] is not None]
 
-    if image_path is None and args['camera'] == False and args['video'] is None:
+    if sum(options_list) == 0:
         print('No input provided to apply the model')
 
-    elif image_path:
+    elif sum(options_list) > 1:
+        print('Two or more input sources provided. Give only one of image, video and webcam source')
+
+    if image_path:
         detection_image_file(image_path, yolo_weights, yolo_cfg, coco_names, confidence_threshold, nms_threshold)
 
     elif args['camera'] == True or args['video']:
