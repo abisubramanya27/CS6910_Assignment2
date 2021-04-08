@@ -9,3 +9,5 @@ venv*
 *.weights
 */*.weights
 **/*.weights
+
+**/output/*.avi
