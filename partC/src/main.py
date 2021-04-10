@@ -159,7 +159,7 @@ if __name__ == '__main__':
     ap.add_argument('--class_names', help='Path to class-names text file', type=str, default='../pre-trained-model/coco.names')
     ap.add_argument('--conf_thresh', help='Confidence threshold value', default=0.6)
     ap.add_argument('--nms_thresh', help='NMS threshold value', default=0.4)
-    ap.add_argument('-ds', help='To display probability scores for the object detected', action='store_true', default=False)
+    ap.add_argument('-ds', help='To display probability scores for the objects detected in the output image/video', action='store_true', default=False)
     args = vars(ap.parse_args())
 
     image_path = args['image']
