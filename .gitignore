@@ -11,3 +11,7 @@ venv*
 **/*.weights
 
 **/output/*.avi
+
+**/wandb
+
+**/inaturalist_12K*

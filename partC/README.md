@@ -14,10 +14,12 @@ There are several pre-trained models available and we would be using the "YOLOv3
 The code for this part is based on this [Medium](https://towardsdatascience.com/object-detection-using-yolov3-9112006d1c73) article.
 
 ## Requirements
-The required python libraried can be installed using 
+All the python libraries required to run the program are listed in `requirementsC.txt`
+They can be installed using 
 ```shell
 pip install -r requirementsC.txt
 ```
+**(Use Python 3.7 or lower versions of Python 3)**
 
 ## Arguments
 The `main.py` program is run with the following arguments
