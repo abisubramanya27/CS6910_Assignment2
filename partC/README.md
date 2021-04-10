@@ -73,11 +73,11 @@ The output file formats :
 
 ## Output
 Example output (with scores) for image ([input image](input/input1.png))
-<img src ='output/input1.png' width = 500>
+<p><img src ='output/input1.png' width = 500></p>
 
 Example output (without scores) for image ([input image](input/input2.jpg))
-<img src ='output/input2.jpg' width = 500>
+<p><img src ='output/input2.jpg' width = 500></p>
 
 Output for video ([input video](input/video1.mp4)) is uploaded to youtube
-<a href="https://youtu.be/TpRf-LY3k4c" target="_blank"><img src="http://img.youtube.com/vi/TpRf-LY3k4c/0.jpg" 
-alt="YOLOv3 output video" width="500"/></a>
+<p><a href="https://youtu.be/TpRf-LY3k4c" target="_blank"><img src="http://img.youtube.com/vi/TpRf-LY3k4c/0.jpg" 
+alt="YOLOv3 output video" width="500"/></a></p>
