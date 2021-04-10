@@ -6,6 +6,7 @@ import seaborn as sns
 import os
 
 def load_input_image(image_path):
+    # Function to read the image
     test_img = cv2.imread(image_path)
     h, w, _ = test_img.shape
 
@@ -13,6 +14,7 @@ def load_input_image(image_path):
 
 
 def yolov3(yolo_weights, yolo_cfg, coco_names):
+    # Function to read the netlist and weights of yolov3
     net = cv2.dnn.readNet(yolo_weights, yolo_cfg)
     classes = open(coco_names).read().strip().split("\n")
     layer_names = net.getLayerNames()
@@ -22,6 +24,7 @@ def yolov3(yolo_weights, yolo_cfg, coco_names):
 
 
 def perform_detection(net, img, output_layers, w, h, confidence_threshold):
+    # Function to detect the object class and bounding box using yolov3
     blob = cv2.dnn.blobFromImage(img, 1 / 255., (416, 416), swapRB=True, crop=False)
     net.setInput(blob)
     layer_outputs = net.forward(output_layers)
@@ -75,6 +78,7 @@ def draw_boxes_labels(boxes, confidences, class_ids, classes, img, colors, confi
 
 
 def dectection_video_file(webcam, video_path, yolo_weights, yolo_cfg, coco_names, confidence_threshold, nms_threshold, disp_scores):
+    # Function to take a webcam or video input, apply yolov3 and store the output video
     net, classes, output_layers = yolov3(yolo_weights, yolo_cfg, coco_names)
     # colors = np.random.uniform(0, 255, size=(len(classes), 3))
     colors = ((np.array(sns.color_palette("husl", len(classes))) * 255)).astype(int)
@@ -125,6 +129,7 @@ def dectection_video_file(webcam, video_path, yolo_weights, yolo_cfg, coco_names
 
 
 def detection_image_file(image_path, yolo_weights, yolo_cfg, coco_names, confidence_threshold, nms_threshold, disp_scores):
+    # Function to take a input image, apply yolov3 and store the output image
     img, h, w = load_input_image(image_path)
     net, classes, output_layers = yolov3(yolo_weights, yolo_cfg, coco_names)
     # colors = np.random.uniform(0, 255, size=(len(classes), 3))
