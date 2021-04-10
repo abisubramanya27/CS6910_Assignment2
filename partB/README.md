@@ -40,7 +40,7 @@ The very first time you run the notebook, the dataset needs to be downloaded. Th
   ```python
   model -- (Keras Model object) the resulting model
   ```
-- Once the model is obtained, we can train it using
+- Once the model is obtained, we can train it (and also optionally evaluate it on a test set) using
 ```python
 CNN_pretrained_train(model, inp_img_shape, train_data_path, config, no_classes, val_data_path, test_data_path, wandb_init)
 ```
