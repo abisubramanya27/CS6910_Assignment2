@@ -6,10 +6,6 @@ The first paper on YOLO is shown <a href="https://arxiv.org/pdf/1506.02640.pdf">
 The `src/main.py` is a python program that contains the necessary code to use the pre-trained yolov3 model for object detection on an input image, video or a live webcam feed and store the results.
 
 There are several pre-trained models available and we would be using the "YOLOv3–416" model. The models are trained on the MS COCO dataset which has 80 classes of objects present in it.
-- `pre-trained-model/coco.names` contains the 80 class names used in YOLO.
-- `pre-trained-model/yolov3.cfg` is the configuration file for YOLOv3 (to use a different model, download the configuration file; other variants and versions of yolo can be downloaded from [link](https://pjreddie.com/darknet/yolo/))
-- The weights file for the YOLOv3 model can be downloaded using the command `wget https://pjreddie.com/media/files/yolov3.weights` (those for other models can be downloaded similarly)
-
 
 The code for this part is based on this [Medium](https://towardsdatascience.com/object-detection-using-yolov3-9112006d1c73) article.
 
@@ -22,7 +18,7 @@ pip install -r requirementsC.txt
 **(Use Python 3.7 or lower versions of Python 3)**
 
 ## Arguments
-The `main.py` program is run with the following arguments
+The `main.py` program inside `src` folder is run with the following arguments
 ```shell
     --video          --->   Path to video file (default : None)
     --image          --->   Path to the test images (default : None)
@@ -34,15 +30,40 @@ The `main.py` program is run with the following arguments
     --nms_thresh     --->   NMS (Non-maximum supression) threshold value (default : 0.4)
     -ds              --->   To display probability scores for the object detected in the output image/video (default : False)   
 ```
+
+## Setup
+The `pre-trained-model` folder contains :
+- `pre-trained-model/coco.names` contains the 80 class names used in YOLO. It is also the default path for `--class_names` in `src/main.py`.
+- `pre-trained-model/yolov3.cfg` is the configuration file for YOLOv3. It is also the default path for `--configs` in `src/main.py`.
+
+The weights file for the YOLOv3 model can be downloaded using the command 
+```shell
+wget https://pjreddie.com/media/files/yolov3.weights
+``` 
+Since the default path for `--weights` in `src/main.py` is `pre-trained-model/yolov3.weights`, if the above command is executed from inside `pre-trained-model` folder we need not provide the argument for it.
+
+**NOTE :** To use a different model, download the configuration and weights file (and even class names file, if necessary). For other variants and versions of yolo, they can be downloaded from [link](https://pjreddie.com/darknet/yolo/). The arguments `--configs` and `--weights` (and even `--class_names`) need to be provided if a different model is used).
+
 ## Usage
+Go to src folder by
+```shell
+cd src
+```
+
 * For testing on images  
-`python _main.py --image <path to the image file> --weights <path to the weights file> --configs <path to the config file> --class_names <path to the class ids file>`
+```shell
+python _main.py --image <path to the image file> --weights <path to the weights file> --configs <path to the config file> --class_names <path to the class ids file>
+```
 
 * For testing on videos  
-`python main.py --video <path to the video file> --weights <path to the weights file> --configs <path to the config file> --class_names <path to the class ids file>`
+```shell
+python main.py --video <path to the video file> --weights <path to the weights file> --configs <path to the config file> --class_names <path to the class ids file>
+```
 
 * For testing on live web-cam feed  
-`python Obj_main.py -camera --weights <path to the weights file> --configs <path to the config file> --class_names <path to the class ids file>`
+```shell
+python Obj_main.py -camera --weights <path to the weights file> --configs <path to the config file> --class_names <path to the class ids file>
+```
 
 The program will store the output image/video in the same name as input inside `output` folder, which will be created/existing one directory above the input image. (output for webcam feed will be stored in the name 'webcam_out.avi')
 
