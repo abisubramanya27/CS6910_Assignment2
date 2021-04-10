@@ -12,6 +12,14 @@ pip install -r requirementsB.txt
 
 The training happens much faster on a GPU and the notebook can be run on Google colab without any additional installations than the ones done in the notebook itself.
 
+The very first time you run the notebook, the dataset needs to be downloaded. The inaturalist_12K dataset has already been split into training, validation and testing sets (using `split-folders` python library) and stored in gdrive. It can be downloaded by running the below in the notebook cell 
+```python
+!gdown --id 11SGStqp8Vug2GDzSpJDwQYHThLIjZFQn
+!unzip -q inaturalist_12K.zip
+!ls
+```
+(the above lines are already present in the first cell of the notebook, they need to be uncommented to run)
+
 
 ## Steps to run the program
 - The code is done in a Google colab notebook and stored in the path `src/Assignment1.ipynb`. It can be opened and run in Google colab or jupyter server.
