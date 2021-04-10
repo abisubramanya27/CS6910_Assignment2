@@ -3,7 +3,7 @@
 **NOTE :** The program is written in a modular manner, with each logically separate unit of code written as functions.  
 
 ## Requirements
-All the python libraries required to run the program on a CPU are listed in `requirementsA.txt`
+All the python libraries required to run the program on a CPU are listed in `requirementsA.txt` ([link](requirementsA.txt)).
 They can be installed using 
 ```shell
 pip install -r requirementsA.txt
@@ -22,19 +22,30 @@ The very first time you run the notebook, the dataset needs to be downloaded. Th
 
 
 ## Steps to run the program
-- The code is done in a Google colab notebook and stored in the path `src/Assignment2_PartA.ipynb`. It can be opened and run in Google colab or jupyter server.
+- The code is done in a Google colab notebook and stored in the path `src/Assignment2_PartA.ipynb` ([link](src/Assignment2_PartA.ipynb)). It can be opened and run in Google colab or jupyter server.
 - The solution to each question is made in the form of a couple of function calls (which are clearly mentioned with question numbers in comments) and commented out in the program so that the user can choose which parts to run and evaluate.
 - In order to run the solution for a particular question, uncomment that part and run the cell.
-- To get a new model for part B using a pre-trained model (after modifying appropriately and freezing initial layers) use 
+- To get a new model for part A use 
   ```python
-  get_pretrained_model(model_name, no_neurons_dense, k_value, no_classes)
+  build_model_partA(inp_img_shape, K_list, F_list, no_neurons_dense, no_classes, pooling_list, activation_fn_list, P_list, S_list, reg_list, lambda_, BN_yes, dropout_p)
   ```
   whose arguments are :
   ```python
-  model_name -- (string) name of pre-trained model
-  no_neurons_dense -- (int) number of neurons in the dense layer
-  k_value -- (int) number of layers to freeze in the pre-trained model
-  no_classes -- (int) number of output classes in the classification problem (default : 10)
+  inp_img_shape -- (int) shape of input image
+  K_list -- (list) List of number of filters in each non FC layer
+  F_list -- (list of int) List of size of filters (assumed same dimension in width and height) in each non FC layer  
+  no_neurons_dense -- (int) Number of neurons in the dense FC layer
+  no_classes -- (int) Number of output classes in the classification problem
+  pooling_list -- (list) List of pooling layer option for each conv+pooling block ('max' : MaxPooling2D, 'avg': AveragePooling2D)
+  activation_fn_list -- (list) List of activation function in each convolution layer and the onne hidden FC layer
+  P_list -- List of padding options in each non FC layer 
+            ('valid' : no padding, 'same' : padding to make input and output same dimensions)
+        S_list -- List of strides (assumed equal in width and height) in each non FC layer
+        reg_list -- List of regularization options for the convolution, one hidden FC and output layers ('none' : no regularization, 'L2' , 'L1')
+        lambda_ -- weight decay hyperparameter for regularisation
+        BN_yes -- True : Batch normalisation (BN) should be used, False : BN should not be used
+        dropout_p -- Probability of dropping out a neuron
+                     (The dropout is added for the single dense hidden layer alone after referring to many CNN architecture papers)
   ```
   and returns :
   ```python

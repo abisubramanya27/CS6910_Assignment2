@@ -3,14 +3,14 @@ YOLO v3 is used for detecting objects and their locations in images and recorded
 The first paper on YOLO is shown <a href="https://arxiv.org/pdf/1506.02640.pdf">here</a> and improvements in v3 is decribed <a href="https://arxiv.org/pdf/1506.02640.pdf">here</a>
 
 ## Overview
-The `src/main.py` is a python program that contains the necessary code to use the pre-trained yolov3 model for object detection on an input image, video or a live webcam feed and store the results.
+The `src/main.py` ([link](src/main.py)) is a python program that contains the necessary code to use the pre-trained yolov3 model for object detection on an input image, video or a live webcam feed and store the results.
 
 There are several pre-trained models available and we would be using the "YOLOv3–416" model. The models are trained on the MS COCO dataset which has 80 classes of objects present in it.
 
 The code for this part is based on this [Medium](https://towardsdatascience.com/object-detection-using-yolov3-9112006d1c73) article.
 
 ## Requirements
-All the python libraries required to run the program are listed in `requirementsC.txt`
+All the python libraries required to run the program are listed in `requirementsC.txt` ([link](requirementsC.txt)).
 They can be installed using 
 ```shell
 pip install -r requirementsC.txt
@@ -32,7 +32,7 @@ The `main.py` program inside `src` folder is run with the following arguments
 ```
 
 ## Setup
-The `pre-trained-model` folder contains :
+The `pre-trained-model` folder ([link](pre-trained-model)) contains :
 - `pre-trained-model/coco.names` contains the 80 class names used in YOLO. It is also the default path for `--class_names` in `src/main.py`.
 - `pre-trained-model/yolov3.cfg` is the configuration file for YOLOv3. It is also the default path for `--configs` in `src/main.py`.
 
@@ -72,12 +72,12 @@ The output file formats :
 - video/webcam :   `.avi`
 
 ## Output
-Example output (with scores) for image (input image : `input/input1.png`)
+Example output (with scores) for image ([input image](input/input1.png))
 <img src ='output/input1.png' width = 500>
 
-Example output (without scores) for image (input image : `input/input2.jpg`)
+Example output (without scores) for image ([input image](input/input2.jpg))
 <img src ='output/input2.jpg' width = 500>
 
-Output for video (input video : `input/video1.mp4`) is uploaded to youtube
+Output for video ([input video](input/video1.mp4)) is uploaded to youtube
 <a href="https://youtu.be/TpRf-LY3k4c" target="_blank"><img src="http://img.youtube.com/vi/TpRf-LY3k4c/0.jpg" 
 alt="YOLOv3 output video" width="500"/></a>
