@@ -1,12 +1,12 @@
-# PART B : Using Pre-trained models
+# PART A : Training CNN from scratch
 
 **NOTE :** The program is written in a modular manner, with each logically separate unit of code written as functions.  
 
 ## Requirements
-All the python libraries required to run the program on a CPU are listed in `requirementsB.txt`
+All the python libraries required to run the program on a CPU are listed in `requirementsA.txt`
 They can be installed using 
 ```shell
-pip install -r requirementsB.txt
+pip install -r requirementsA.txt
 ```
 **(Use Python 3.7 or lower versions of Python 3)**
 
@@ -22,7 +22,7 @@ The very first time you run the notebook, the dataset needs to be downloaded. Th
 
 
 ## Steps to run the program
-- The code is done in a Google colab notebook and stored in the path `src/Assignment2_PartB.ipynb`. It can be opened and run in Google colab or jupyter server.
+- The code is done in a Google colab notebook and stored in the path `src/Assignment2_PartA.ipynb`. It can be opened and run in Google colab or jupyter server.
 - The solution to each question is made in the form of a couple of function calls (which are clearly mentioned with question numbers in comments) and commented out in the program so that the user can choose which parts to run and evaluate.
 - In order to run the solution for a particular question, uncomment that part and run the cell.
 - To get a new model for part B using a pre-trained model (after modifying appropriately and freezing initial layers) use 

@@ -15,3 +15,5 @@ venv*
 **/wandb
 
 **/inaturalist_12K*
+
+**/.vscode
