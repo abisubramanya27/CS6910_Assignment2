@@ -12,6 +12,7 @@ pip install -r requirementsB.txt
 
 The training happens much faster on a GPU and the notebook can be run on Google colab without any additional installations than the ones done in the notebook itself.
 
+
 ## Steps to run the program
 - The code is done in a Google colab notebook and stored in the path `src/Assignment1.ipynb`. It can be opened and run in Google colab or jupyter server.
 - The solution to each question is made in the form of a couple of function calls (which are clearly mentioned with question numbers in comments) and commented out in the program so that the user can choose which parts to run and evaluate.
